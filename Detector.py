@@ -33,6 +33,7 @@ while(cap.isOpened()):  # 循环读取每一帧
         result_detection,transform,straight_qrcode = cv2.QRCodeDetector().detectAndDecode(frame)
 
         if result_detection:
+            # 将二维码内容写入文件
             f = open('result.txt', 'w+')
             f.write(result_detection)
             f.close()
@@ -45,7 +46,8 @@ while(cap.isOpened()):  # 循环读取每一帧
             cv2.destroyAllWindows()  # 删除建立的全部窗口
             os._exit(0)
 
-    if k == ord('q'):  # 若检测到按键 ‘q’，退出
+    #if k == ord('q'):  # 若检测到按键 ‘q’，退出
+    if k == 27: # 若检测到按键 ‘Esc’，退出
         break
 
 cap.release()  # 释放摄像头
