@@ -1,2 +1,1 @@
-# QR-Detector
-二维码识别
+# LCFC 水星线
