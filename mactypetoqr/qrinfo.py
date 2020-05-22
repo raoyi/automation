@@ -25,17 +25,34 @@ else:
 bompath = conf.get('Settings','bompath')
 mackey = conf.get('Settings','mackey')
 modelkey = conf.get('Settings','modelkey')
+panelkey = conf.get('Settings','panelkey')
 imgsize = conf.getint('Settings','imgsize')
 timeout = conf.getint('Settings','timeout')
 
+# get filename
+name = os.path.split(__file__)[-1]
+name = name[:name.rfind('.')]
+
+# del log
+if os.path.exists(name+'log.txt'):
+    os.remove(name+'log.txt')
+
+# check BOM
 file = open(bompath,'r')
 for line in file.readlines():
     if mackey in line:
         mac = line.split('=')[1].replace('\n','').strip()
     if modelkey in line:
         model = line.split('=')[1].replace('\n','').strip()
+    if panelkey in line:
+        panel = line.split('=')[1].replace('\n','').strip()
+        if panel == 'N/A':
+            panel = 'N'
+        else:
+            panel = 'Y'
 file.close()
-mactype = mac+separator+model
+
+mactype = mac+separator+model+separator+panel
 #print(mactype)
 
 #set QR
@@ -74,10 +91,12 @@ root.geometry(uisize+"+"+sw+"+0")
 
 def autoClose():
     time.sleep(timeout)
+    f = open(name+'log.txt', 'w+')
+    f.write('Show QRCode PASS')
+    f.close()
     root.destroy()
 
 t = threading.Thread(target=autoClose)
 t.start()
 root.mainloop()
 os._exit(0)
-
