@@ -2,6 +2,8 @@
 
 从BOM中抓出MAC和机型生成二维码
 
+注意：文件名可更改，但ini文件名要与主程序文件名相同
+
 参数设置：
 - bompath：BOM.bat文件的位置
 - mackey：MAC对应的键名
