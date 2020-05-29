@@ -40,7 +40,7 @@ while(cap.isOpened()):  # 循环读取每一帧
 
     ret,frame = cap.read()
 
-    cv2.imshow("QrDetector - Author:RaoYi", frame)  # 窗口显示，显示名为 QRCode Detector
+    cv2.imshow("QrDetector - V2.0 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
 
     k = cv2.waitKey(1) & 0xFF  # 每帧数据延时 1ms，延时不能为 0，否则读取的结果会是静态帧
 
