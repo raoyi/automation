@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#Runing with Python3
 import os
 import qrcode
 import tkinter
@@ -9,8 +8,16 @@ import configparser
 import threading
 import time
 
+# get filename
+name = os.path.split(__file__)[-1]
+name = name[:name.rfind('.')]
+
+# del log
+if os.path.exists(name+'log.txt'):
+    os.remove(name+'log.txt')
+
 conf = configparser.ConfigParser()
-conf.read('qrinfo.ini')
+conf.read(name+'.ini')
 
 if 'imgname' in conf.options("Settings"):
     imgname = conf.get('Settings','imgname')
@@ -29,14 +36,6 @@ panelkey = conf.get('Settings','panelkey')
 imgsize = conf.getint('Settings','imgsize')
 timeout = conf.getint('Settings','timeout')
 
-# get filename
-name = os.path.split(__file__)[-1]
-name = name[:name.rfind('.')]
-
-# del log
-if os.path.exists(name+'log.txt'):
-    os.remove(name+'log.txt')
-
 # check BOM
 file = open(bompath,'r')
 for line in file.readlines():
@@ -52,8 +51,8 @@ for line in file.readlines():
             panel = 'Y'
 file.close()
 
-mactype = mac+separator+model+separator+panel
-#print(mactype)
+strings = mac+separator+model+separator+panel
+#print(strings)
 
 #set QR
 qr = qrcode.QRCode(
@@ -64,7 +63,7 @@ qr = qrcode.QRCode(
 )
 
 #create QR, change size and output image
-qr.add_data(mactype)
+qr.add_data(strings)
 qr.make(fit=True)
 img = qr.make_image()
 (x,y) = img.size
