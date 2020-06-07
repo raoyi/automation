@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import qrcode
-import tkinter
+import tkinter, tkinter.messagebox
 from PIL import Image, ImageTk
 import configparser
 import threading
@@ -36,20 +36,38 @@ panelkey = conf.get('Settings','panelkey')
 imgsize = conf.getint('Settings','imgsize')
 timeout = conf.getint('Settings','timeout')
 
+if not isinstance(imgsize,int):
+    root = tkinter.Tk()
+    root.withdraw() #主窗口隐藏
+    tkinter.messagebox.showerror('ERROR','imgsize in INI file is error!')
+    os._exit(1)
+
+if not isinstance(timeout,int):
+    root = tkinter.Tk()
+    root.withdraw() #主窗口隐藏
+    tkinter.messagebox.showerror('ERROR','timeout in INI file is error!')
+    os._exit(2)
+
 # check BOM
-file = open(bompath,'r')
-for line in file.readlines():
-    if mackey in line:
-        mac = line.split('=')[1].replace('\n','').strip()
-    if modelkey in line:
-        model = line.split('=')[1].replace('\n','').strip()
-    if panelkey in line:
-        panel = line.split('=')[1].replace('\n','').strip()
-        if panel == 'N/A':
-            panel = 'N'
-        else:
-            panel = 'Y'
-file.close()
+if os.path.exists(bompath):
+    file = open(bompath,'r')
+    for line in file.readlines():
+        if mackey in line:
+            mac = line.split('=')[1].replace('\n','').strip()
+        if modelkey in line:
+            model = line.split('=')[1].replace('\n','').strip()
+        if panelkey in line:
+            panel = line.split('=')[1].replace('\n','').strip()
+            if panel == 'N/A':
+                panel = 'N'
+            else:
+                panel = 'Y'
+    file.close()
+else:
+    root = tkinter.Tk()
+    root.withdraw() #主窗口隐藏
+    tkinter.messagebox.showerror('ERROR','BOM.BAT NOT EXIST or BOMPATH ERROR!')
+    os._exit(3)
 
 strings = mac+separator+model+separator+panel
 #print(strings)
