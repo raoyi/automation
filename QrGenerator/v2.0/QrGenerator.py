@@ -53,13 +53,13 @@ imgsize = conf.getint('Settings','imgsize')
 if not isinstance(imgsize,int):
     root = tkinter.Tk()
     root.withdraw() #主窗口隐藏
-    tkinter.messagebox.showerror('ERROR','imgsize in INI file is error!')
+    tkinter.messagebox.showerror('ERROR','imgsize in INI file must be int!')
     os._exit(1)
 
-if not isinstance(timeout,int):
+if not isinstance(timeout,int) and timeout != '':
     root = tkinter.Tk()
     root.withdraw() #主窗口隐藏
-    tkinter.messagebox.showerror('ERROR','timeout in INI file is error!')
+    tkinter.messagebox.showerror('ERROR','timeout in INI file must be int or null value!')
     os._exit(2)
 
 # check BOM
