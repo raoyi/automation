@@ -2,7 +2,9 @@
 
 ## changelog：
 
-增加 GSKU 标识位
+- 增加 ESC 键退出功能
+- 增加 键盘背光标识位
+- 增加 GSKU 标识位
 
 ## ini文件说明：
 - pox：QRCode展示位置X轴，可选，默认为X轴最大值
