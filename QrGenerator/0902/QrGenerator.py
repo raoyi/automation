@@ -48,7 +48,7 @@ else:
     
 if exitflag == '':
     root = tkinter.Tk()
-    root.withdraw() #主窗口隐藏
+    root.withdraw() # hide main window
     tkinter.messagebox.showerror('ERROR','exit flag not exist!')
     os._exit(4)
     
@@ -62,7 +62,7 @@ gskuval = conf.get('BOMinfo','gskuval')
 
 if not isinstance(imgsize,int):
     root = tkinter.Tk()
-    root.withdraw() #主窗口隐藏
+    root.withdraw() # hide main window
     tkinter.messagebox.showerror('ERROR','imgsize in INI file must be int!')
     os._exit(1)
 
@@ -100,7 +100,7 @@ if os.path.exists(bompath):
     file.close()
 else:
     root = tkinter.Tk()
-    root.withdraw() #主窗口隐藏
+    root.withdraw() # hide main window
     tkinter.messagebox.showerror('ERROR','BOM.BAT NOT EXIST or BOMPATH ERROR!')
     os._exit(3)
 
