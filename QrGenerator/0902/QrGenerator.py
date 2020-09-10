@@ -92,7 +92,7 @@ if os.path.exists(bompath):
             if 'KBPN'+'=' in line:
                 kbpn = line.split('=')[1].replace('\n','').strip()
                 kbbglflag = kbpn[-3]
-                if kbbglval.find(kbbglflag) != -1:
+                if kbbglval.count(kbbglflag) != 0:
                     kbbgl = 'Y'
                 else:
                     kbbgl = 'N'
