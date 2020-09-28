@@ -9,8 +9,6 @@ int main(int argc, char* argv[])
         exit(0);
     }
     int i = atoi(argv[1]);
-    /*for (i = 0; i < argc; i++)
-        printf("µÚ %d ¸ö²ÎÊýÊÇ %s\n", i + 1, argv[i]);*/
     Sleep(i);
     return 0;
 }
