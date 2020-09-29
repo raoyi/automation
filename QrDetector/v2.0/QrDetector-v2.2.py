@@ -29,8 +29,10 @@ prev_result = ''
 # cv2.isOpened()检查是否初始化成功，返回布尔值
 while(cap.isOpened()):  # 循环读取每一帧
 
-    ret,frame = cap.read()
-
+    frame = cap.read()[1]
+    if setchar != ['']:
+        frame = cv2.putText(frame, 'wait'+str(setchar), (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+    
     cv2.imshow("QrDetector - V2.1 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
 
     k = cv2.waitKey(1) & 0xFF  # 每帧数据延时 1ms，延时不能为 0，否则读取的结果会是静态帧
