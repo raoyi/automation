@@ -1,7 +1,7 @@
-#Region ;**** ²ÎÊı´´½¨ÓÚ ACNWrapper_GUI ****
+#Region ;**** å‚æ•°åˆ›å»ºäº ACNWrapper_GUI ****
 #PRE_Compile_Both=y
 #PRE_Res_requestedExecutionLevel=None
-#EndRegion ;**** ²ÎÊı´´½¨ÓÚ ACNWrapper_GUI ****
+#EndRegion ;**** å‚æ•°åˆ›å»ºäº ACNWrapper_GUI ****
 #include <GUIConstantsEx.au3>
 #include <ButtonConstants.au3>
 
@@ -9,18 +9,30 @@ Example()
 
 Func Example()
 	Local $Button, $Label, $msg
-	GUICreate("ÌáÊ¾ĞÅÏ¢", 750, 500) ; ´´½¨Ò»¸ö¶Ô»°¿ò,²¢¾ÓÖĞÏÔÊ¾
+	GUICreate("MessageBox", 750, 500) ; åˆ›å»ºä¸€ä¸ªå¯¹è¯æ¡†,å¹¶å±…ä¸­æ˜¾ç¤º
 
 	Opt("GUICoordMode")
-	
-	$Label = GUICtrlCreateLabel("ÕâÌ¨»úÆ÷ÊÇ GSKU µÄ"&@CRLF&@CRLF&"Çëµã»÷ È·ÈÏ°´Å¥ ¹Ø»ú"&@CRLF&@CRLF&"Çë°ÑËü·ÅÔÚ E¡¢F¡¢M ÏßÉÏ¼Ü"&@CRLF&@CRLF&"ĞÁ¿àÁË", 30, 30, 990, 400, -1)
+
+	$Label = GUICtrlCreateLabel("", 30, 30, 690, 373, -1)
 	GUICtrlSetFont (-1, 40)
-	$Button = GUICtrlCreateButton("È·ÈÏ", 500, 400, 150, 50, $BS_DEFPUSHBUTTON)
+	
+	Select
+		Case $cmdline[0] = 1
+			ControlSetText("MessageBox", "", "Static1", $cmdline[1])
+		Case $cmdline[0] = 2
+			ControlSetText("MessageBox", "", "Static1", $cmdline[1]&@CRLF&@CRLF&$cmdline[2])
+		Case $cmdline[0] = 3
+			ControlSetText("MessageBox", "", "Static1", $cmdline[1]&@CRLF&@CRLF&$cmdline[2]&@CRLF&@CRLF&$cmdline[3])
+		Case $cmdline[0] >= 4
+			ControlSetText("MessageBox", "", "Static1", $cmdline[1]&@CRLF&@CRLF&$cmdline[2]&@CRLF&@CRLF&$cmdline[3]&@CRLF&@CRLF&$cmdline[4])
+	EndSelect
+
+	$Button = GUICtrlCreateButton("ç¡®è®¤", 500, 430, 150, 50, $BS_DEFPUSHBUTTON)
 	GUICtrlSetFont (-1, 20)
 
-	GUISetState()      ; ÏÔÊ¾ÓĞÁ½¸ö°´Å¥µÄ¶Ô»°¿ò
+	GUISetState()      ; æ˜¾ç¤ºæœ‰ä¸¤ä¸ªæŒ‰é’®çš„å¯¹è¯æ¡†
 
-	; ÔËĞĞ½çÃæ,Ö±µ½´°¿Ú±»¹Ø±Õ
+	; è¿è¡Œç•Œé¢,ç›´åˆ°çª—å£è¢«å…³é—­
 	While 1
 		$msg = GUIGetMsg()
 		Select

@@ -2,22 +2,34 @@
 
 import cv2
 import configparser
+import re
 import os
 
 conf = configparser.ConfigParser()
 conf.read('QrDetector.ini',encoding='utf-8')
 
-setchar = conf.get('Settings','setchar')
-separator = conf.get('Settings','separator')
+# 检查是否有变量 qrstr1 等，并组成列表
+for key in conf['Settings']:
+    if re.match("qrstr\d+",key):
+        try:
+            qrstrx
+        except NameError:
+            qrstrx = []
+        if conf['Settings'][key] != '':
+            qrstrx.append(conf['Settings'][key].split(conf['Settings']['separator']))
+    else:
+        qrstrx = ['']
 
-if 'debug' in conf.options("Settings"):
-    debug = conf.get('Settings','debug')
-    if debug == 'Y' or debug == 'y':
-        debug = 'Y'
-else:
-    debug = 'N'
-        
-setchar = setchar.split(separator)
+# 处理中的qrstrx列表的ID
+strindex = 0
+
+# 设置截图间隔时间
+try:
+    shotinterval = int(conf['Settings']['shotinterval'])
+except:
+    print("debug Error!!!")
+if shotinterval > 0:
+    debug = shotinterval
 
 count_experiments = 1
 
@@ -30,10 +42,11 @@ prev_result = ''
 while(cap.isOpened()):  # 循环读取每一帧
 
     frame = cap.read()[1]
-    if setchar != ['']:
-        frame = cv2.putText(frame, 'waitQR'+str(setchar), (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+
+    if qrstrx[0] != '':
+        frame = cv2.putText(frame, 'waitQR'+str(qrstrx[0]), (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
     
-    cv2.imshow("QrDetector - V2.2 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
+    cv2.imshow("QrDetector - V3.0 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
 
     k = cv2.waitKey(1) & 0xFF  # 每帧数据延时 1ms，延时不能为 0，否则读取的结果会是静态帧
 
@@ -45,13 +58,13 @@ while(cap.isOpened()):  # 循环读取每一帧
             pass
 
         if result_detection:
-            if debug == 'Y' and result_detection != prev_result:
+            if 'debug' in locals().keys() and result_detection != prev_result:
                 ff = open('scanlist.txt', 'a')
                 ff.write(result_detection+'\n')
                 ff.close()
                 prev_result = result_detection
                 
-            if setchar.count(result_detection) != 0:
+            if qrstrx[0].count(result_detection) != 0:
                 # 将二维码内容写入文件
                 f = open('result.txt', 'w')
                 f.write(result_detection)
