@@ -49,6 +49,17 @@ if 'saveavi' in conf['Settings']:
 else:
     saveavi = 'N'
 
+# 设置保存二维码图片标记
+if 'qrpic' in conf['Settings']:
+    qrpic = conf['Settings']['qrpic'].upper()
+    if qrpic == 'Y':
+        if os.path.exists('qrpic') == False:
+            os.mkdir('qrpic')
+    else:
+        qrpic = 'N'
+else:
+    qrpic = 'N'
+
 count_experiments = 1
 
 # 0是默认的笔记本摄像头ID
@@ -70,7 +81,7 @@ while(cap.isOpened()):  # 循环读取每一帧
     if len(qrstrx) != 0 and strindex < len(qrstrx):
         frame = cv2.putText(frame, 'waitQR'+str(qrstrx[strindex]), (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
     
-    cv2.imshow("QrDetector - V20201009 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
+    cv2.imshow("QrDetector - 20201009 | Author:RaoYi", frame)  # 窗口显示，并设置窗口标题
 
     k = cv2.waitKey(1) & 0xFF  # 每帧数据延时 1ms，延时不能为 0，否则读取的结果会是静态帧
 
@@ -88,10 +99,16 @@ while(cap.isOpened()):  # 循环读取每一帧
 
         if result_detection:
             if result_detection != prev_result:
+                if qrpic == 'Y':
+                    cv2.imwrite('qrpic\\'+str(len(os.listdir('qrpic'))+1)+'.jpg', frame)
                 ff = open('scanlog.txt', 'a')
-                ff.write(datetime.now().strftime('%y%m%d-%H:%M:%S.%f')+' get string : '+result_detection+'\n')
+                ff.write(datetime.now().strftime('[%Y/%m/%d-%H:%M:%S.%f]')+' get string : '+result_detection+'\n')
                 ff.close()
                 prev_result = result_detection
+                if qrstrx == [] and autoexit == 'Y':
+                    cap.release()   # 释放摄像头
+                    cv2.destroyAllWindows() # 删除建立的全部窗口
+                    os._exit(0)
 
             if strindex < len(qrstrx) and qrstrx[strindex].count(result_detection) != 0:
                 # 将二维码内容写入文件
