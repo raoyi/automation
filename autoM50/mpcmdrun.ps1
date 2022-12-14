@@ -7,4 +7,4 @@ $swname = Join-Path (Join-Path $p $n) -ChildPath 'MpCmdRun.exe'
 # "Scan finished." Out-File -Append ./log/mpcmdrun.log
 
 $s = & $swname -scan -scantype 1
-$s|Out-File ./log/mpcmdrun.log
+$s|Out-File -Encoding utf8 ./log/mpcmdrun.log
