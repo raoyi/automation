@@ -66,7 +66,7 @@ if(!(Test-Path 'log'))
 }
 
 # step 1 video 1 start==========================================
-"video play once start - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"video play once start - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 
 Start-Process .\ffmpeg\ffplay.exe -argumentlist "-i","video.mp4"
 #////////////////////////////////////
@@ -84,14 +84,14 @@ while($in_test)
 }
 TASKKILL /F /IM ffplay.exe /T
 #////////////////////////////////////
-"video play once end - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"video play once end - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 
 powercfg /sleepstudy /output ./log/report_pre.html
 Start-Sleep -Seconds 10
 
-"aoac in - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac in - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 time_chk
-"aoac out - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac out - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 
 powercfg /sleepstudy /output ./log/report_1.html
 
@@ -102,12 +102,12 @@ powercfg /sleepstudy /output ./log/report_1.html
 # step 1 end====================================================
 
 # step 2 video loop start=======================================
-"video play loop start - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"video play loop start - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 Start-Process .\ffmpeg\ffplay.exe -argumentlist "-i","video.mp4","-loop","3"
 Start-Sleep -Seconds 10
-"aoac in - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac in - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 time_chk
-"aoac out - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac out - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 ##################################################
 # check ffplay.exe process
 $pro_ffplay = (Get-Process).ProcessName | find `"ffplay`"
@@ -125,7 +125,7 @@ if($pro_ffplay -eq 'ffplay')
     if($res_comp -eq 'different')
     {
         Write-Host "Video Loop Test PASS!"
-        "Video Loop Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+        "Video Loop Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
         TASKKILL /F /IM ffplay.exe /T
     }
     else
@@ -137,13 +137,13 @@ if($pro_ffplay -eq 'ffplay')
         if($res_comp -eq 'different')
         {
             Write-Host "Video Loop Test PASS!"
-            "Video Loop Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+            "Video Loop Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
             TASKKILL /F /IM ffplay.exe /T
         }
         else
         {
             Write-Host "Video Loop Test FAIL, Image Similar!"
-            "Video Loop Test FAIL, Image Similar! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+            "Video Loop Test FAIL, Image Similar! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
             Read-Host
         }
     }
@@ -151,20 +151,20 @@ if($pro_ffplay -eq 'ffplay')
 else
 {
     Write-Host "Video Loop Test FAIL, No Process Named ffplay!"
-    "Video Loop Test FAIL, No Process Named ffplay! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+    "Video Loop Test FAIL, No Process Named ffplay! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     Read-Host
 }
 powercfg /sleepstudy /output ./log/report_2.html
 # step 2 end====================================================
 
 # step 3 quick scan start=======================================
-"quick scan start - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"quick scan start - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 # process name: MpCmdRun.exe
 Start-Process "powershell.exe" -ArgumentList "-file","mpcmdrun.ps1"
 Start-Sleep -Seconds 2
-"aoac in - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac in - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 time_chk
-"aoac out - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac out - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 
 # find process MpCmdRun.exe
 $pro_mpcmdrun = (Get-Process).ProcessName | find `"MpCmdRun`"
@@ -174,7 +174,7 @@ $pro_mpcmdrun = (Get-Process).ProcessName | find `"MpCmdRun`"
 if($pro_mpcmdrun -eq 'MpCmdRun')
 {
     Write-Host "MpCmdRun Test PASS!"
-    "MpCmdRun Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+    "MpCmdRun Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     TASKKILL /F /IM MpCmdRun.exe /T
 }
 else
@@ -182,12 +182,12 @@ else
     if((Get-Content ./log/mpcmdrun.log)[-1] -eq 'Scan finished.')
     {
         Write-Host "MpCmdRun Test PASS!"
-        "MpCmdRun Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+        "MpCmdRun Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     }
     else
     {
         Write-Host "MpCmdRun Test FAIL!"
-        "MpCmdRun Test FAIL! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+        "MpCmdRun Test FAIL! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     }
 }
 powercfg /sleepstudy /output ./log/report_3.html
@@ -198,19 +198,19 @@ powercfg /sleepstudy /output ./log/report_3.html
 connect
 
 Start-Sleep -Seconds 5
-"File Download start - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"File Download start - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 # File Length:3826831360
 Start-Process .\wget.exe -argumentlist "-O","./log/download_file.iso","https://repo.huaweicloud.com/ubuntu-releases/22.04.1/ubuntu-22.04.1-desktop-amd64.iso"
 Start-Sleep -Seconds 5
-"aoac in - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac in - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 time_chk
-"aoac out - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+"aoac out - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 # chk file size
 $file_size = (ls ./log/download_file.iso).Length
 if($file_size -eq 3826831360)
 {
     Write-Host "File Download Test PASS!"
-    "File Download Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+    "File Download Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
 }
 else
 {
@@ -219,12 +219,12 @@ else
     if($file_size2 -gt $file_size)
     {
         Write-Host "File Download Test PASS!"
-        "File Download Test PASS! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+        "File Download Test PASS! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     }
     else
     {
         Write-Host "File Download ERROR!"
-        "File Download ERROR! - "+$(Get-Date)|Out-File -Append ./log/aoac_log.txt
+        "File Download ERROR! - "+$(Get-Date)|Out-File -Encoding utf8 -Append ./log/aoac_log.txt
     }
 }
 powercfg /sleepstudy /output ./log/report_4.html
