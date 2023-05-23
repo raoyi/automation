@@ -9,6 +9,7 @@ from tkinter.messagebox import *
 window=tk.Tk()
 window.title('MissModuleChk for LNB - v0.2')
 window.geometry('400x130')
+window.resizable(False,False)
     
 tk.Label(window,text="XML Path:").place(x=10,y=15)
 var_name=tk.StringVar() #文件输入路径变量
