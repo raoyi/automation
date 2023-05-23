@@ -7,14 +7,14 @@ from  tkinter import filedialog
 from tkinter.messagebox import *
 
 window=tk.Tk()
-window.title('MissModuleChk for LNB - v0.2')
+window.title('MissModuleChk for LNB - v0.3')
 window.geometry('400x130')
 window.resizable(False,False)
     
 tk.Label(window,text="XML Path:").place(x=10,y=15)
 var_name=tk.StringVar() #文件输入路径变量
  
-entry_name=tk.Entry(window,textvariable=var_name,width=31)
+entry_name=tk.Entry(window,textvariable=var_name,width=31,state='readonly')
 entry_name.place(x=80,y=15)
 
 #输入文件路径
@@ -25,7 +25,7 @@ def selectPath_file():
 def start():
     # 0 pass, 1 fail
     res = subprocess.call('ping 100.105.16.2 -n 1',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    if res == 0:
+    if (res == 0) and (var_name.get() != ''):
         # create net use Z
         subprocess.call('net use * /del /y',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         subprocess.call('net use Z: \\\\100.105.16.2\\cpp2\\Images sx=123 /user:administrator',shell=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -45,8 +45,9 @@ def start():
         else:
             showinfo('Result','Finished, '+str(n)+' module missing.\nListed in MissModule.txt')
     elif res == 1:
-        # show error msg
         showerror('Error','Cannot achieve LNB preload server!')
+    elif var_name.get() == '':
+        showerror('Error','XML path is blank!')
 
 tk.Button(window, text = "Select XML", command = selectPath_file).place(x=310,y=10)
 tk.Button(window, text = "Start Check", command = start).place(x=200,y=50)
