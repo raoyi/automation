@@ -21,7 +21,9 @@ entry_name.place(x=80,y=15)
 def selectPath_file():
     path_ = filedialog.askopenfilename(title='Select XML', filetypes=[("XML files",[".xml"])])
     var_name.set(path_)
-    if var_name.get() != '':
+    if var_name.get() == '':
+        lab_show.set('Select XML and click Start.')
+    elif var_name.get() != '':
         tree = ET.parse(var_name.get())
         root = tree.getroot()
         lab_show.set('Process : 0 / '+str(len(root)))
@@ -55,7 +57,7 @@ def start():
         else:
             showinfo('Result','Finished, '+str(missnum)+' module missing.\nListed in MissModule.txt')
     elif res == 1:
-        showerror('Error','Cannot achieve LNB preload server!')
+        showerror('Error','Cannot access LNB preload server!')
     elif var_name.get() == '':
         showerror('Error','XML path is blank!')
 
