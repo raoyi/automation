@@ -9,6 +9,7 @@ window=tk.Tk()
 window.title('MissModuleChk for LNB - v0.5')
 window.geometry('400x130')
 window.resizable(False,False)
+#window.iconbitmap('logo.ico')
     
 tk.Label(window,text="XML Path:").place(x=10,y=15)
 var_name = tk.StringVar() #文件输入路径变量
